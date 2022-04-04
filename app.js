@@ -20,25 +20,25 @@ app.post("/consumer", async ({ body }, res) => {
             }
         ]
     });
-    console.log("peer:", peer);
+    // console.log("peer:", peer);
 
     const desc = new webrtc.RTCSessionDescription(body.sdp);
-    console.log("desc:", desc);
+    // console.log("desc:", desc);
 
     await peer.setRemoteDescription(desc);
     senderStream.getTracks().forEach(track => peer.addTrack(track, senderStream));
-    console.log("senderStream.getTracks():", senderStream.getTracks());
+    // console.log("senderStream.getTracks():", senderStream.getTracks());
     
 
     const answer = await peer.createAnswer();
-    console.log("answer:", answer);
+    // console.log("answer:", answer);
 
 
     await peer.setLocalDescription(answer);
     const payload = {
         sdp: peer.localDescription
     }
-    console.log("payload:", payload)
+    // console.log("payload:", payload)
     
 
     res.json(payload);
@@ -55,23 +55,23 @@ app.post('/broadcast', async ({ body }, res) => {
             }
         ]
     });
-    console.log("peer:", peer);
+    // console.log("peer:", peer);
 
     peer.ontrack = (e) => handleTrackEvent(e, peer);
     
     const desc = new webrtc.RTCSessionDescription(body.sdp);
-    console.log("desc:", desc)
+    // console.log("desc:", desc)
 
     await peer.setRemoteDescription(desc);
     const answer = await peer.createAnswer();
-    console.log("answer:", answer)
+    // console.log("answer:", answer)
 
 
     await peer.setLocalDescription(answer);
     const payload = {
         sdp: peer.localDescription
     }
-    console.log("payload:", payload)
+    // console.log("payload:", payload)
 
     res.json(payload);
 });
