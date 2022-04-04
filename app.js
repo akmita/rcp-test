@@ -10,6 +10,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post("/consumer", async ({ body }, res) => {
+
+    console.log("consumer method triggered")
+
     const peer = new webrtc.RTCPeerConnection({
         iceServers: [
             {
@@ -26,10 +29,16 @@ app.post("/consumer", async ({ body }, res) => {
         sdp: peer.localDescription
     }
 
+
+    
+
     res.json(payload);
 });
 
 app.post('/broadcast', async ({ body }, res) => {
+
+    console.log("broadcasting...")
+
     const peer = new webrtc.RTCPeerConnection({
         iceServers: [
             {
@@ -50,6 +59,7 @@ app.post('/broadcast', async ({ body }, res) => {
 });
 
 function handleTrackEvent(e, peer) {
+    console.log("handling track event")
     senderStream = e.streams[0];
 };
 
